@@ -48,14 +48,14 @@ clearAll.addEventListener("click", (event) => {
 
 function searchTask(term){
     Array.from(tasks.children).filter(task => {
-        return !task.textContent.includes(term);
+        return !task.textContent.toLowerCase().includes(term);
     })
     .forEach(task =>{
         task.classList.add("hide");
     });
 
     Array.from(tasks.children).filter(task =>{
-        return task.textContent.includes(term);
+        return task.textContent.toLowerCase().includes(term);
     })
     .forEach(task => {
         task.classList.remove("hide");
@@ -70,7 +70,7 @@ searchForm.addEventListener("keyup", event =>{
 searchForm.addEventListener("click", event =>{
     if(event.target.classList.contains("reset")){
         searchForm.reset();
-        const term = searchForm.task.value.trim();
+        const term = searchForm.task.value.trim().toLowerCase();
         searchTask(term);
     }
 })
