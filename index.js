@@ -20,10 +20,11 @@ updateMessage();
 addForm.addEventListener("submit", (event) => {
     event.preventDefault();
     const value = addForm.task.value.trim();
+    const datePosted = new Date().toDateString();
     if (value.length) {
         // addTask(value);
         tasks.innerHTML += `<li>
-                            <span>${value}</span>
+                            <span>${value} | ${datePosted}</span>
                             <i class="bi bi-trash-fill delete"></i>
                         </li>`;
         addForm.reset();
@@ -63,7 +64,7 @@ function searchTask(term){
 }
 
 searchForm.addEventListener("keyup", event =>{
-    const term = searchForm.task.value.trim();
+    const term = searchForm.task.value.trim().toLowerCase();
     searchTask(term);
 })
 
