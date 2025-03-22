@@ -24,7 +24,11 @@ addForm.addEventListener("submit", (event) => {
     if (value.length) {
         // addTask(value);
         tasks.innerHTML += `<li>
-                            <span>${value} | ${datePosted}</span>
+                            <p>
+                                <span>${value} </span> 
+                                <span id="time">${datePosted}</span>
+                            </p>
+                            
                             <i class="bi bi-trash-fill delete"></i>
                         </li>`;
         addForm.reset();
@@ -47,31 +51,33 @@ clearAll.addEventListener("click", (event) => {
     });
 });
 
-function searchTask(term){
-    Array.from(tasks.children).filter(task => {
-        return !task.textContent.toLowerCase().includes(term);
-    })
-    .forEach(task =>{
-        task.classList.add("hide");
-    });
+function searchTask(term) {
+    Array.from(tasks.children)
+        .filter((task) => {
+            return !task.textContent.toLowerCase().includes(term);
+        })
+        .forEach((task) => {
+            task.classList.add("hide");
+        });
 
-    Array.from(tasks.children).filter(task =>{
-        return task.textContent.toLowerCase().includes(term);
-    })
-    .forEach(task => {
-        task.classList.remove("hide");
-    })
+    Array.from(tasks.children)
+        .filter((task) => {
+            return task.textContent.toLowerCase().includes(term);
+        })
+        .forEach((task) => {
+            task.classList.remove("hide");
+        });
 }
 
-searchForm.addEventListener("keyup", event =>{
+searchForm.addEventListener("keyup", (event) => {
     const term = searchForm.task.value.trim().toLowerCase();
     searchTask(term);
-})
+});
 
-searchForm.addEventListener("click", event =>{
-    if(event.target.classList.contains("reset")){
+searchForm.addEventListener("click", (event) => {
+    if (event.target.classList.contains("reset")) {
         searchForm.reset();
         const term = searchForm.task.value.trim().toLowerCase();
         searchTask(term);
     }
-})
+});
