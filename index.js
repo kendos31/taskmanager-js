@@ -3,16 +3,50 @@ const tasks = document.querySelector(".tasks");
 const clearAll = document.querySelector(".clear");
 const spanMessage = document.querySelector(".message span");
 const searchForm = document.querySelector(".search");
+const tasksList =
+    localStorage.getItem("tasksList") !== null
+        ? JSON.parse(localStorage.getItem("tasksList"))
+        : [];
 
-// function addTask(value){
-//     tasks.innerHTML += `<li>
-//                             <span>${value}</span>
-//                             <i class="bi bi-trash-fill delete"></i>
-//                         </li>`;
-// }
+function generateTemplate(value, datePosted) {
+    return `<li>
+                <p>
+                    <span>${value} </span> 
+                    <span id="time">${datePosted}</span>
+                </p>
+                                    
+                <i class="bi bi-trash-fill delete"></i>
+            </li>`;
+}
+
 function updateMessage() {
     taskLength = tasks.children.length;
     spanMessage.textContent = `You have ${taskLength} pending tasks.`;
+}
+
+function getTasks() {
+    tasksList.forEach((task) => {
+        tasks.innerHTML += generateTemplate(task.value, task.datePosted);
+    });
+    updateMessage();
+}
+
+function addTasksDOM(value, datePosted) {
+    if (value.length) {
+        tasks.innerHTML += generateTemplate(value, datePosted);
+    }
+}
+
+function addTasks(value) {
+    const datePosted = new Date();
+    const taskItem = {
+        value: value,
+        datePosted: `${datePosted.toLocaleTimeString()} ${datePosted.toLocaleDateString()}`,
+    };
+
+    tasksList.push(taskItem);
+    localStorage.setItem("tasksList", JSON.stringify(tasksList));
+    addTasksDOM(value, taskItem.datePosted);
 }
 
 updateMessage();
@@ -20,20 +54,10 @@ updateMessage();
 addForm.addEventListener("submit", (event) => {
     event.preventDefault();
     const value = addForm.task.value.trim();
-    const datePosted = new Date().toDateString();
-    if (value.length) {
-        // addTask(value);
-        tasks.innerHTML += `<li>
-                            <p>
-                                <span>${value} </span> 
-                                <span id="time">${datePosted}</span>
-                            </p>
-                            
-                            <i class="bi bi-trash-fill delete"></i>
-                        </li>`;
-        addForm.reset();
-        updateMessage();
-    }
+    // const datePosted = new Date().toDateString();
+    addTasks(value);
+    addForm.reset();
+    updateMessage();
 });
 
 tasks.addEventListener("click", (event) => {
@@ -81,3 +105,5 @@ searchForm.addEventListener("click", (event) => {
         searchTask(term);
     }
 });
+
+getTasks();
