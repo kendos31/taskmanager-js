@@ -84,6 +84,7 @@ clearAll.addEventListener("click", (event) => {
         item.remove();
         updateMessage();
     });
+    localStorage.clear();
 });
 
 function searchTask(term) {
