@@ -79,12 +79,15 @@ tasks.addEventListener("click", (event) => {
 });
 
 clearAll.addEventListener("click", (event) => {
-    const taskItems = tasks.querySelectorAll("li");
-    taskItems.forEach((item) => {
-        item.remove();
-        updateMessage();
-    });
+    // const taskItems = tasks.querySelectorAll("li");
+    // taskItems.forEach((item) => {
+    //     item.remove();
+    //     updateMessage();
+    // });
     localStorage.clear();
+    tasks.innerHTML = '';
+    tasksList = [];
+    updateMessage();
 });
 
 function searchTask(term) {
